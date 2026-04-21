@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KKN Arunikarsa 59</title>
+
+  <!-- Bootstrap (stable) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <!-- AOS (opsional) -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+  <style>
+    /* ========= BASE ========= */
+    :root {
+      --nav-offset: 5.25rem;
+    }
+
+    [id] {
+      scroll-margin-top: var(--nav-offset);
+    }
+
+    html,
+    body {
+      background: #0b1220;
+    }
+
+    .section-title {
+      text-align: center;
+      margin: 0 0 1rem;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: #113F67;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, .2);
+    }
+
+    /* Wave Join helper (anti celah putih) */
+    .wave-join {
+      display: block;
+      width: 100%;
+      height: 72px;
+      line-height: 0;
+      margin: 0;
+      margin-top: -1px;
+      background: var(--from, transparent);
+    }
+
+    .wave-join>svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .wave-join path {
+      fill: var(--to, #fff);
+      shape-rendering: geometricPrecision;
+    }
+
+    /* ========= JUMBOTRON ========= */
+    .jumbotron {
+      background: #0b1220;
+      padding-top: 6rem;
+      padding-bottom: 1rem;
+      color: #fff;
+      text-align: center;
+    }
+
+    .jumbotron .display-4 {
+      font-weight: 800;
+      letter-spacing: .5px;
+    }
+
+    .jumbotron .lead {
+      font-weight: 700;
+      margin-top: .25rem;
+    }
+
+    /* ========= ABOUT ========= */
+    #about {
+      background: #145369;
+      color: #d8e3e9;
+    }
+
+    #about h5 {
+      color: #06f64a;
+    }
+
+    #about .container {
+      padding: 28px 16px;
+    }
+
+    /* ========= PROJECTS ========= */
+    #projects {
+      background: #FDF5AA;
+      color: #101820;
+    }
+
+    .mobile-2up-cards {
+      --gap: 12px;
+      --pad-y: 12px;
+      padding: var(--pad-y) 0;
+      flex-wrap: wrap;
+      overflow: hidden;
+    }
+
+    .scard {
+      border-radius: .9rem;
+      border: 3px solid rgba(0, 0, 0, .12);
+      /* border diperjelas */
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, .12);
+      background: #e4e6ea;
+      /* latar putih supaya kontras */
+    }
+
+    .scard.proj-card {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    .proj-nav {
+      display: flex;
+      gap: .5rem;
+      overflow: auto;
+      padding: .5rem;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      background: rgba(0, 0, 0, .04);
+      border-bottom: 1px solid rgba(0, 0, 0, .08);
+    }
+
+    .proj-nav .nav-link {
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+      border-radius: .6rem;
+      padding: .35rem .6rem;
+      font-weight: 700;
+      border: 1px solid #000103;
+      background: #fff;
+      color: #212529;
+    }
+
+    .proj-nav .nav-link.is-active {
+      outline: 2px solid var(--bs-primary);
+      outline-offset: 1px;
+    }
+
+    .proj-media {
+      position: relative;
+      border-radius: .5rem;
+      overflow: hidden;
+      margin: .5rem;
+      aspect-ratio: 16 / 9;
+      background: #e9ecef;
+    }
+
+    .proj-media .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity .2s ease;
+    }
+
+    .proj-media .slide.is-show {
+      opacity: 1;
+    }
+
+    .proj-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border: 1px solid #000103;
+      border-radius: 1.2rem;
+    }
+
+    .proj-desc {
+      padding: .65rem .8rem;
+      font-size: .95rem;
+      border-top: 1px solid rgba(0, 0, 0, .06);
+    }
+
+    /* ========= PERSONIL (HP: 2 kolom) ========= */
+    #personil {
+      background: #043a63;
+      color: #eaf2ff;
+    }
+
+    #personil .subtext {
+      text-align: center;
+      opacity: .9;
+      margin: .25rem 0 1rem;
+    }
+
+    /* FRAME PER DIVISI (mewadahi 2 kolom) */
+    .division-frame {
+      border: 3px solid rgba(255, 255, 255, .35);
+      border-radius: 18px;
+      padding: 12px;
+      background: rgba(255, 255, 255, .05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .25);
+      margin-bottom: 12px;
+    }
+
+    #personil .group-card,
+    #personil .person-card {
+      border: 3px solid #0b1220;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #98B9F3;
+    }
+
+    #personil .group-card img,
+    #personil .person-card img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+    }
+
+    #personil .cap {
+      background: #b7c8ef;
+      color: #0b1220;
+      text-align: center;
+      font-weight: 700;
+      padding: 6px 8px;
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    #personil .carousel {
+      width: 100%;
+    }
+
+    #personil .carousel-control-prev,
+    #personil .carousel-control-next {
+      width: 32px;
+    }
+
+    #personil .carousel-control-prev-icon,
+    #personil .carousel-control-next-icon {
+      width: 1.2rem;
+      height: 1.2rem;
+      background-color: #afafaf;
+      border-radius: 50%;
+    }
+
+    @media(min-width:400px) {
+      #personil .cap {
+        font-size: 13px;
+      }
+    }
+
+    /* ========= CONTACT ========= */
+
+    .klosss {
+      text-align: center;
+      color: #f0f5f8;
+      background: #231028;
+    }
+
+    #contact {
+      background: #ebd50e;
+      color: #000;
+      padding: 36px 0;
+    }
+
+    .contact-map {
+      text-align: center;
+    }
+
+    .map-image {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto;
+      border: 3px solid #000;
+      border-radius: 6px;
+    }
+
+    .map-button {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 18px;
+      background: #000;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 20px;
+      font-size: 16px;
+    }
+
+    /* ========= MEDIA PARTNER ========= */
+    .media-partner {
+      --gap: 32px;
+      --logo-height: 64px;
+      background: #f3f4f6;
+      padding: 18px 0;
+      overflow: hidden;
+    }
+
+    #mpTrack {
+      display: flex;
+      align-items: center;
+      gap: var(--gap);
+      animation: scroll var(--duration, 18s) linear infinite;
+      will-change: transform;
+    }
+
+    #mpTrack .logo {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #mpTrack img {
+      display: block;
+      height: var(--logo-height);
+      max-width: 200px;
+      object-fit: contain;
+    }
+
+    @keyframes scroll {
+      from {
+        transform: translateX(0)
+      }
+
+      to {
+        transform: translateX(var(--translate))
+      }
+    }
+
+    /* ========= SMALL UTIL ========= */
+    .scroll-anim {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: all .7s ease-out;
+    }
+
+    .scroll-anim.show {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Footer */
+    footer {
+      background: #231028;
+      color: #fff;
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    #audioIcon,
+    #pauseImage {
+      animation: rotate 6s linear infinite;
+    }
+  </style>
+</head>
+
+<body id="home">
+
+  <!-- ========== NAVBAR ========== -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="#home">
+        <!-- Logo Bulat -->
+        <img src="img/navb4r.jpg" alt="Logo" class="rounded-circle" width="50" height="50">
+        <!-- Teks di sebelah kanan logo -->
+        <span class="ms-3">Arunikarsa 59</span>
+      </a>
+
+      <i id="audioIcon" class="bi bi-play-circle" style="font-size: 40px; color: #e3e8f0; cursor: pointer;"></i>
+
+      <!-- Gambar Pause dengan src dulu -->
+      <img src="img/yons.jpg" id="pauseImage" alt="Pause"
+        style="display: none; width: 50px; height: 50px; border-radius: 50%;" />
+
+      <!-- Audio Player -->
+      <audio id="audioPlayer" src="audio/tul.mp3" loop></audio>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#home">Arunikarsa</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">Tentang</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Program Kerja</a></li>
+          <li class="nav-item"><a class="nav-link" href="#personil">Anggota</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Lokasi dan Media</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ========== JUMBOTRON ========== -->
+  <section class="jumbotron text-center" id="hero">
+    <img src="img/5.png" alt="Logo KKN Arunikarsa 59" width="220" class="rounded-circle img-thumbnail" loading="lazy" />
+    <h1 class="display-4 mt-3">KKN ARUNIKARSA 59</h1>
+    <p class="lead" id="heroLead"> Wajib Ban Hero Martis Ali </p>
+  </section>
+
+  <!-- wave: Hero -> About -->
+  <div class="wave-join" style="--from:#0b1220; --to:#145369" aria-hidden="true">
+    <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+      <path d="M0,96L240,192L480,128L720,192L960,32L1200,64L1440,96L1440,320L0,320Z"></path>
+    </svg>
+  </div>
+
+  <!-- ========== ABOUT ========== -->
+  <section id="about">
+    <div class="container scroll-anim">
+      <div class="row text-center mb-3">
+        <div class="col">
+          <h1>Tentang Kami</h1>
+          <h5>Burung Merpati Burung Garuda</h5>
+          <h5>Ikan Hiu Lumba-Lumba</h5>
+          <h5>KKN Ciderum Penuh Cerita</h5>
+          <h5>Warga dan Bocil Ikut Bahagia</h5>
+        </div>
+      </div>
+      <div class="row justify-content-center fs-5 text-center">
+        <div class="col-11" style="max-width:640px">
+          <p>Kami men declare kalo kami adalah kelompok terbaik se UINJKT, kata ketum kami. Arunikarsa, nama yang begitu
+            kecilnya jika disandarkan untuk kami, karena kekeluargaan dan kekompakkan kami jauh lebih dari hanya
+            sekedar nama.</p>
+          <p>Ketika matahari terbenam di atas Desa Ciderum, kami menyadari betapa kecilnya dunia ini, namun betapa
+            eratnya ikatan yang terbentuk di antara kita. Seperti sebuah lukisan yang belum selesai, setiap goresan
+            warna yang kami buat adalah bagian dari cerita yang terus berjalan. Kami terus mewarnai setiap momen, dengan
+            harapan bahwa jejak yang kami tinggalkan akan menjadi pengingat, sebuah kenangan yang akan terus hidup dan
+            mengingatkan kita pada kebersamaan yang indah ini.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- wave: About -> Projects -->
+  <div class="wave-join" style="--from:#145369; --to:#FDF5AA" aria-hidden="true">
+    <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+      <path d="M0,256L144,160L288,224L432,256L576,64L720,224L864,224L1008,288L1296,192L1440,256L1440,320L0,320Z"></path>
+    </svg>
+  </div>
+
+  <!-- ========== PROJECTS ========== -->
+  <section id="projects" class="mobile-2up-cards container">
+    <h2 class="section-title">Program Kerja</h2>
+
+    <div class="row g-3">
+      <!-- Card 1 -->
+      <div class="col-12">
+        <div class="card scard proj-card shadow-sm" data-card>
+          <div class="proj-nav" role="tablist" aria-label="Gambar proyek 1">
+            <button type="button" class="nav-link is-active" data-target="p1-1" id="p1-tab-1">Foto Bersama</button>
+            <button type="button" class="nav-link" data-target="p1-2" id="p1-tab-2">Sawah</button>
+            <button type="button" class="nav-link" data-target="p1-3" id="p1-tab-3">Karya</button>
+          </div>
+          <div class="proj-media">
+            <div id="p1-1" class="slide is-show" role="tabpanel" aria-labelledby="p1-tab-1">
+              <img src="img/dewis1.jpg" alt="Proyek 1 — gambar 1" fetchpriority="high" decoding="async" />
+            </div>
+            <div id="p1-2" class="slide" hidden role="tabpanel" aria-labelledby="p1-tab-2">
+              <img src="img/dewis2.jpg" alt="Proyek 1 — gambar 2" loading="lazy" decoding="async" />
+            </div>
+            <div id="p1-3" class="slide" hidden role="tabpanel" aria-labelledby="p1-tab-3">
+              <img src="img/dewis3.jpg" alt="Proyek 1 — gambar 3" loading="lazy" decoding="async" />
+            </div>
+          </div>
+          <div class="proj-desc">Berkontribusi dan Membersamai acara seminar di Desa Wisata</div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="col-12">
+        <div class="card scard proj-card shadow-sm" data-card>
+          <div class="proj-nav" role="tablist" aria-label="Gambar proyek 2">
+            <button type="button" class="nav-link is-active" data-target="p2-1" id="p2-tab-1">Santunan</button>
+            <button type="button" class="nav-link" data-target="p2-2" id="p2-tab-2">Tempat Sampah</button>
+            <button type="button" class="nav-link" data-target="p2-3" id="p2-tab-3">Mengajar</button>
+          </div>
+          <div class="proj-media">
+            <div id="p2-1" class="slide is-show" role="tabpanel" aria-labelledby="p2-tab-1">
+              <img src="img/ek1.jpg" alt="Proyek 2 — gambar 1" fetchpriority="high" decoding="async" />
+            </div>
+            <div id="p2-2" class="slide" hidden>
+              <img src="img/ek2.jpg" alt="Proyek 2 — gambar 2" loading="lazy" decoding="async" />
+            </div>
+            <div id="p2-3" class="slide" hidden>
+              <img src="img/ek3.jpg" alt="Proyek 2 — gambar 3" loading="lazy" decoding="async" />
+            </div>
+          </div>
+          <div class="proj-desc">Sosial, Lingkungan, Pendidikan. Warna Pakaian yang sempurna untuk memajukan sebuah
+            bangsa. Leo D. Haniefmoo berkata "Beri Aku sepuluh orang ciderum, akan ku bangun desa yang di impikan semua
+            makhluk"
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col-12">
+        <div class="card scard proj-card shadow-sm" data-card>
+          <div class="proj-nav" role="tablist" aria-label="Gambar proyek 3">
+            <button type="button" class="nav-link is-active" data-target="p3-1" id="p3-tab-1">Us</button>
+            <button type="button" class="nav-link" data-target="p3-2" id="p3-tab-2">17-an</button>
+            <button type="button" class="nav-link" data-target="p3-3" id="p3-tab-3">Digital</button>
+            <button type="button" class="nav-link" data-target="p3-4" id="p3-tab-4"><i class="bi bi-emoji-tear"></i>
+              KK-End <i class="bi bi-emoji-tear"></i></button>
+          </div>
+          <div class="proj-media">
+            <div id="p3-1" class="slide is-show" role="tabpanel" aria-labelledby="p3-tab-1">
+              <img src="img/pen1.jpg" alt="Proyek 3 — gambar 1" fetchpriority="high" decoding="async" />
+            </div>
+            <div id="p3-2" class="slide" hidden>
+              <img src="img/pen2.jpg" alt="Proyek 3 — gambar 2" loading="lazy" decoding="async" />
+            </div>
+            <div id="p3-3" class="slide" hidden>
+              <img src="img/pen3.jpg" alt="Proyek 3 — gambar 3" loading="lazy" decoding="async" />
+            </div>
+            <div id="p3-4" class="slide" hidden>
+              <img src="img/pen4.jpg" alt="Proyek 3 — gambar 4" loading="lazy" decoding="async" />
+            </div>
+          </div>
+          <div class="proj-desc">"Kebaikan akan menemukan jalannya sendiri". begitu kiranya kata pak Anies Baswedan.
+            Kami Arunikarsa izin dengan segala hormat meminta maaf yang sebesar besarnya atas segala kekurangan kami.
+            segala doa dan harapan yang terbaik untuk mu, semoga lekas di kabulkan, hai Ciderum. Suatu saat kami akan
+            melihat bagaimana matahari hangat itu kembali terbit dari pundak mu yang penuh perjuangan itu. hormat kami,
+            AruniLOVE.....</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- wave: Projects -> Personil -->
+  <div class="wave-join" style="--from:#FDF5AA; --to:#043a63" aria-hidden="true">
+    <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+      <path d="M0,96L240,192L480,128L720,192L960,32L1200,64L1440,96L1440,320L0,320Z"></path>
+    </svg>
+  </div>
+
+  <!-- ========== PERSONIL ========== -->
+  <section id="personil" class="py-3">
+    <div class="container">
+      <h2 class="section-title">Anggota Kami</h2>
+      <p class="subtext">Setiap orang punya Kuas dan Tinta yang berbeda, Kesukaan Warna dan Gaya yang bersebrangan. <i
+          class="bi bi-heart-fill" style="color: #f1f2f9;"></i> <i class="bi bi-heart-fill" style="color: #e3dc14;"></i>
+        Maka
+        nikmatilah sebuah lukisan sederhana ini <i class="bi bi-heart-fill" style="color: #e81b1b;"></i> <i
+          class="bi bi-heart-fill" style="color: #000103;"></i></p>
+
+      <!-- 1 DIVISI -->
+      <div class="division-frame">
+        <div class="row g-2 align-items-stretch">
+          <div class="col-6">
+            <div class="group-card h-100">
+              <img src="img/BPH.jpg" alt="Foto bersama divisi" loading="lazy">
+              <div class="cap">Badan Pengurus Harian</div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div id="divisiSlider" class="carousel slide h-100" data-bs-interval="0" data-bs-wrap="true"
+              data-bs-touch="true">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <div class="person-card"><img src="img/1nip.jpg" alt="Personil 1">
+                    <div class="cap">Syauqi Hanif — Ketua KKN</div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="person-card"><img src="img/2ki.jpg" alt="Personil 2">
+                    <div class="cap">Rizky Mahfudz — Wakil Ketua</div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="person-card"><img src="img/3fir.jpg" alt="Personil 3">
+                    <div class="cap">Firda Aulia — Sekretaris</div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="person-card"><img src="img/4hoi.jpg" alt="Personil 4">
+                    <div class="cap">Hoiriyah Safutri — Bendahara</div>
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#divisiSlider" data-bs-slide="prev"
+                aria-label="Sebelumnya"><span class="carousel-control-prev-icon" aria-hidden="true"></span></button>
+              <button class="carousel-control-next" type="button" data-bs-target="#divisiSlider" data-bs-slide="next"
+                aria-label="Berikutnya"><span class="carousel-control-next-icon" aria-hidden="true"></span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="division-frame">
+        <div class="row g-2 align-items-stretch">
+          <div class="col-6">
+            <div class="group-card h-100">
+              <img src="img/Acara.jpg" alt="Foto bersama divisi" loading="lazy">
+              <div class="cap">Divisi Acara</div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div id="divisiSlider2" class="carousel slide h-100" data-bs-interval="0" data-bs-wrap="true"
+              data-bs-touch="true">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <div class="person-card"><img src="img/5icii.jpg" alt="Personil 1">
+                    <div class="cap"> Rahmah Elqisthy</div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="person-card"><img src="img/8ram.jpg" alt="Personil 2">
+                    <div class="cap"> Fatah Sabilaa Rizqi</div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="person-card"><img src="img/6pit.jpg" alt="Personil 3">
+                    <div class="cap">Novita Fitria</div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="person-card"><img src="img/7gan.jpg" alt="Personil 4">
+                    <div class="cap">Athallah Fathir Ghani</div>
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#divisiSlider2" data-bs-slide="prev"
+                aria-label="Sebelumnya"><span class="carousel-control-prev-icon" aria-hidden="true"></span></button>
+              <button class="carousel-control-next" type="button" data-bs-target="#divisiSlider2" data-bs-slide="next"
+                aria-label="Berikutnya"><span class="carousel-control-next-icon" aria-hidden="true"></span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="division-frame">
+        <div class="row g-2 align-items-stretch">
+          <div class="col-6">
+            <div class="group-card h-100">
+              <img src="img/Humas.jpg" alt="Foto bersama divisi" loading="lazy">
+              <div class="cap">Divisi Humas</div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div id="divisiSlider3" class="carousel slide h-100" data-bs-interval="0" data-bs-wrap="true"
+              data-bs-touch="true">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <div class="person-card"><img src="img/10moo.jpg" alt="Personil 1">
+                    <div class="cap">Hanief Moo</div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="person-card"><img src="img/9fant.jpg" alt="Personil 2">
+                    <div class="cap">Fantri Elistia Ainu</div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="person-card"><img src="img/11ustad.jpg" alt="Personil 3">
+                    <div class="cap">Ahmad Ali Alfaridzi</div>
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#divisiSlider3" data-bs-slide="prev"
+                aria-label="Sebelumnya"><span class="carousel-control-prev-icon" aria-hidden="true"></span></button>
+              <button class="carousel-control-next" type="button" data-bs-target="#divisiSlider3" data-bs-slide="next"
+                aria-label="Berikutnya"><span class="carousel-control-next-icon" aria-hidden="true"></span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="division-frame">
+        <div class="row g-2 align-items-stretch">
+          <div class="col-6">
+            <div class="group-card h-100">
+              <img src="img/Perlap.jpg" alt="Foto bersama divisi" loading="lazy">
+              <div class="cap"> <i class="bi bi-fire"></i> Divisi Perlengkapan <i class="bi bi-fire"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div id="divisiSlider4" class="carousel slide h-100" data-bs-interval="0" data-bs-wrap="true"
+              data-bs-touch="true">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <div class="person-card"><img src="img/ganyang.jpg" alt="Personil 1">
+                    <div class="cap">Geser sebelah lebih menyala</div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="person-card"><img src="img/12ganang.jpg" alt="Personil 2">
+                    <div class="cap">Muhammad Ganang Hidayat</div>
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#divisiSlider4" data-bs-slide="prev"
+                aria-label="Sebelumnya"><span class="carousel-control-prev-icon" aria-hidden="true"></span></button>
+              <button class="carousel-control-next" type="button" data-bs-target="#divisiSlider4" data-bs-slide="next"
+                aria-label="Berikutnya"><span class="carousel-control-next-icon" aria-hidden="true"></span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="division-frame">
+        <div class="row g-2 align-items-stretch">
+          <div class="col-6">
+            <div class="group-card h-100">
+              <img src="img/Konsums1.jpg" alt="Foto bersama divisi" loading="lazy">
+              <div class="cap">Divisi Konsumsi</div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div id="divisiSlider5" class="carousel slide h-100" data-bs-interval="0" data-bs-wrap="true"
+              data-bs-touch="true">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <div class="person-card"><img src="img/14bob.jpg" alt="Personil 1">
+                    <div class="cap">Achmad Bobsaid</div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="person-card"><img src="img/17hasna.jpg" alt="Personil 2">
+                    <div class="cap">Hasna Salmanova</div>
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#divisiSlider5" data-bs-slide="prev"
+                aria-label="Sebelumnya"><span class="carousel-control-prev-icon" aria-hidden="true"></span></button>
+              <button class="carousel-control-next" type="button" data-bs-target="#divisiSlider5" data-bs-slide="next"
+                aria-label="Berikutnya"><span class="carousel-control-next-icon" aria-hidden="true"></span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="division-frame">
+        <div class="row g-2 align-items-stretch">
+          <div class="col-6">
+            <div class="group-card h-100">
+              <img src="img/Pudidi.jpg" alt="Foto bersama divisi" loading="lazy">
+              <div class="cap"> <i class="bi bi-camera2"></i> &nbsp;&nbsp; Divisi PDD &nbsp;&nbsp; <i
+                  class="bi bi-badge-8k-fill"></i></div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <div id="divisiSlider6" class="carousel slide h-100" data-bs-interval="0" data-bs-wrap="true"
+              data-bs-touch="true">
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <div class="person-card"><img src="img/16tya.jpg" alt="Personil 1">
+                    <div class="cap">Atiah Fitrianidah</div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="person-card"><img src="img/15ca.jpg" alt="Personil 2">
+                    <div class="cap">Aufa Salma Caca</div>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <div class="person-card"><img src="img/13me.jpg" alt="Personil 3">
+                    <div class="cap">Duhan Abdul Hannan</div>
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#divisiSlider6" data-bs-slide="prev"
+                aria-label="Sebelumnya"><span class="carousel-control-prev-icon" aria-hidden="true"></span></button>
+              <button class="carousel-control-next" type="button" data-bs-target="#divisiSlider6" data-bs-slide="next"
+                aria-label="Berikutnya"><span class="carousel-control-next-icon" aria-hidden="true"></span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /1 DIVISI -->
+    </div>
+  </section>
+
+  <!-- wave: Personil -> Contact -->
+  <div class="wave-join" style="--from:#043a63; --to:#ebd50e" aria-hidden="true">
+    <svg viewBox="0 0 1440 320" preserveAspectRatio="none">
+      <path d="M0,96L240,192L480,128L720,192L960,32L1200,64L1440,96L1440,320L0,320Z"></path>
+    </svg>
+  </div>
+
+  <!-- ========== CONTACT ========== -->
+  <section id="contact">
+    <div class="container scroll-anim">
+      <div class="row text-center mb-3">
+        <div class="col">
+          <h2>Lokasi dan Media</h2>
+        </div>
+      </div>
+      <div class="contact-map">
+        <img src="img/Tukki.png" alt="Lokasi kami" class="map-image" loading="lazy" />
+        <a href="https://maps.app.goo.gl/CX6e3ZAozGS7mfqg8" target="_blank" rel="noopener" class="map-button">Lokasi
+          Posko Tercinta Kami</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MEDIA PARTNER (marquee) ========== -->
+  <div class="klosss">
+    <h5>Media Partner</h5>
+  </div>
+  <section class="media-partner" aria-label="Media partner carousel">
+    <div class="carousel-track" id="mpTrack">
+      <div class="logo"><img src="img/1.png" alt="logo 1"></div>
+      <div class="logo"><img src="img/2.png" alt="logo 2"></div>
+      <div class="logo"><img src="img/3.png" alt="logo 3"></div>
+      <div class="logo"><img src="img/4.png" alt="logo 4"></div>
+      <div class="logo"><img src="img/5.png" alt="logo 5"></div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="text-white text-center py-4">
+    <div class="container">
+      <p class="mb-2"> Dibuat dengan cinta oleh:</p>
+      <p class="mb-2"> <i class="bi bi-amd"></i> &nbsp; <i class="bi bi-cpu"></i> &nbsp; <strong>FATAH - HANNAN</strong>
+        &nbsp; <i class="bi bi-android2"></i> &nbsp; <i class="bi bi-reception-4"></i>
+      </p>
+      <a href="https://www.instagram.com/arunikarsa_59bogor?igsh=MTR3dGt6ZHB4dGc0eA==" target="_blank" rel="noopener"
+        class="btn btn-primary me-2"><i class="bi bi-instagram"></i> Instagram</a>
+      <a href="https://www.tiktok.com/@kkn59_arunikarsa?_t=ZS-8yhw1gChZbT&_r=1" target="_blank" rel="noopener"
+        class="btn btn-primary"><i class="bi bi-tiktok"></i> TikTok</a>
+    </div>
+  </footer>
+
+  <!-- ======= SCRIPTS ======= -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+  <script>
+    // offset anchor
+    document.querySelectorAll('[id]').forEach(el => el.style.scrollMarginTop = '5.25rem');
+
+    // AOS (optional)
+    if (window.AOS) AOS.init({ once: true, duration: 800 });
+
+    // Scroll-in sederhana
+    const _scEls = document.querySelectorAll('.scroll-anim');
+    const _onScroll = () => {
+      const trig = innerHeight * 0.85;
+      _scEls.forEach(el => { if (el.getBoundingClientRect().top < trig) el.classList.add('show'); });
+    };
+    addEventListener('scroll', _onScroll, { passive: true }); _onScroll();
+
+    // GSAP: animasi teks jumbotron (awal -> final)
+    if (window.gsap) {
+      gsap.registerPlugin(TextPlugin);
+      const phrases = ["Wajib Ban Hero Martis Ali", "Soalnya Poke Sekali Kata Ghani"];
+      const finalText = "KKN Terbaik se-UIN Jakarta";
+      const el = document.getElementById('heroLead');
+      gsap.timeline()
+        .set(el, { text: phrases[0] })
+        .to(el, { duration: 2.3, text: phrases[1], ease: "none", delay: 1.5 })
+        .to(el, { duration: 2.1, text: finalText, ease: "none", delay: 1.5 });
+    }
+
+    // Projects: nav → image switch
+    document.querySelectorAll('[data-card]').forEach(card => {
+      const buttons = card.querySelectorAll('.proj-nav [data-target]');
+      const panels = card.querySelectorAll('.proj-media .slide');
+      const show = id => {
+        panels.forEach(p => { const on = (p.id === id); p.classList.toggle('is-show', on); p.toggleAttribute('hidden', !on); });
+        buttons.forEach(b => { const on = (b.dataset.target === id); b.classList.toggle('is-active', on); b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
+      };
+      if (buttons[0]) show(buttons[0].dataset.target);
+      buttons.forEach(b => b.addEventListener('click', () => show(b.dataset.target)));
+      card.querySelector('.proj-nav').addEventListener('keydown', e => {
+        if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+        e.preventDefault();
+        const idx = [...buttons].findIndex(b => b.classList.contains('is-active'));
+        const next = e.key === 'ArrowRight' ? (idx + 1) % buttons.length : (idx - 1 + buttons.length) % buttons.length;
+        buttons[next].focus(); buttons[next].click();
+      });
+    });
+
+    // Media partner marquee builder (no hover pause)
+    (function () {
+      const track = document.getElementById('mpTrack'); if (!track) return;
+      const container = track.closest('.media-partner');
+      const originalHTML = track.innerHTML.trim();
+      const SPEED = 80;
+      let resizeTimer = null;
+      function build() {
+        track.style.animation = 'none';
+        track.innerHTML = originalHTML;
+        const minWidth = Math.max(container.clientWidth * 2, 800);
+        let safety = 0;
+        while (track.scrollWidth < minWidth && safety < 20) { track.innerHTML += originalHTML; safety++; }
+        const translatePx = -(track.scrollWidth / 2);
+        track.style.setProperty('--translate', translatePx + 'px');
+        const durationSec = Math.max(6, Math.abs(translatePx) / (window._MP_SPEED || SPEED));
+        track.style.setProperty('--duration', durationSec + 's');
+        requestAnimationFrame(() => { void track.offsetWidth; track.style.animation = ''; });
+      }
+      if (document.readyState === 'loading') addEventListener('DOMContentLoaded', build); else build();
+      addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(build, 80); });
+    })();
+
+    const audioIcon = document.getElementById('audioIcon');
+    const pauseImage = document.getElementById('pauseImage');
+    const audioPlayer = document.getElementById('audioPlayer');
+
+    audioIcon.addEventListener('click', () => {
+      audioPlayer.play(); // Mainkan musik
+      audioIcon.style.display = 'none'; // Sembunyikan ikon play
+      pauseImage.style.display = 'block';  // Tampilkan gambar sebagai pengganti ikon pause
+    });
+
+  </script>
+</body>
+
+</html>
